@@ -3,6 +3,7 @@ package com.deposits.api.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.deposits.entities.BankEntity;
+import com.deposits.entities.ClientEntity;
+import com.deposits.exception.ClientNotFoundException;
 import com.deposits.services.impl.BankServiceImpl;
 
 
@@ -34,6 +37,11 @@ public class BankController {
 		return bankServiceImpl.addBank(newBank);
 	}
 	
+	@GetMapping("/banks/{id}")
+	BankEntity getBankById (@PathVariable Integer id) {
+		BankEntity bankToGet = bankServiceImpl.getById(id).orElseThrow(() -> new ClientNotFoundException (id));
+		return bankToGet;
+	}
 	@GetMapping("/banks/{name}")
 	BankEntity getBank (@PathVariable String name) {
 		return bankServiceImpl.getByName(name);
@@ -44,6 +52,11 @@ public class BankController {
 		bankServiceImpl.deleteBank(id);
 	}
 	
+	/*@PutMapping("/banks/{id}")
+	BankEntity editBank (@RequestBody BankEntity newBank, @PathVariable Integer id) {
+		return Servi;
+		*/
+	//}
 	/*
 	 * to-do:
 	 * @PutMapping

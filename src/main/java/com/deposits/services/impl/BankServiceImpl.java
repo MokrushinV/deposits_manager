@@ -2,6 +2,7 @@ package com.deposits.services.impl;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,11 @@ public class BankServiceImpl implements BankService {
 		bankRepository.deleteById (id);
 	}
 
+	@Override
+	public Optional <BankEntity> getById (Integer id) {
+		return bankRepository.findById(id);
+	}
+	
 	@Override
 	public BankEntity getByName (String name) {
 		return bankRepository.findByName (name);

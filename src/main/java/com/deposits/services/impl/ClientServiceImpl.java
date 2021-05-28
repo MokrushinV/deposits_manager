@@ -1,11 +1,13 @@
 package com.deposits.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.deposits.entities.ClientEntity;
+import com.deposits.exception.ClientNotFoundException;
 import com.deposits.repositories.ClientRepository;
 import com.deposits.services.ClientService;
 
@@ -27,6 +29,12 @@ public class ClientServiceImpl implements ClientService {
 		
 	}
 
+	@Override
+	public Optional<ClientEntity> getById (Integer id) {
+		return clientRepository.findById(id);
+				
+	}
+	
 	@Override
 	public ClientEntity getByName (String name) {
 		return clientRepository.findByName (name);

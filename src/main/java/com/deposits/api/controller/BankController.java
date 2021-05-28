@@ -52,15 +52,18 @@ public class BankController {
 		bankServiceImpl.deleteBank(id);
 	}
 	
-	/*@PutMapping("/banks/{id}")
+	@PutMapping("/banks/{id}")
 	BankEntity editBank (@RequestBody BankEntity newBank, @PathVariable Integer id) {
-		return Servi;
-		*/
-	//}
-	/*
-	 * to-do:
-	 * @PutMapping
-	 * editBank
-	 * */
+		return bankServiceImpl.getById(id)
+				.map(bank -> {
+					bank.setBankName (newBank.getBankName ());
+					bank.setBankBIC (newBank.getBankBIC ());
+					return bankServiceImpl.addBank (bank);
+				})
+				.orElseGet ( () -> {
+					newBank.setId (id);
+					return bankServiceImpl.addBank (newBank);
+				});
+	}
 	
 }

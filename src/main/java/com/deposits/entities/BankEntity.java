@@ -1,9 +1,11 @@
 package com.deposits.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
+
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "bank_table")
@@ -19,10 +21,10 @@ public class BankEntity {
 	@Column(name = "bank_BIC")
 	private String bankBIC;
 	
-	@OneToMany(mappedBy = "bank", targetEntity = DepositEntity.class, cascade = CascadeType.ALL,
+	@OneToMany(mappedBy = "bank", targetEntity = DepositEntity.class,
 			   fetch = FetchType.EAGER, orphanRemoval = true)
 	//@JoinColumn(name = "bank_id", referencedColumnName = "id")
-	private List <DepositEntity> deposits = new ArrayList <DepositEntity>();
+	private Set <DepositEntity> deposits;
 	
 	public BankEntity (String bankName, String bankBIC) {
 		this.bankName = bankName;
@@ -57,11 +59,12 @@ public class BankEntity {
 		this.id = id;
 	}
 
-	public List <DepositEntity> getDeposits () {
+	@JsonManagedReference (value = "bank_reference")
+	public Set<DepositEntity> getDeposits() {
 		return deposits;
 	}
 
-	public void setDeposits (List <DepositEntity> deposits) {
+	public void setDeposits(Set<DepositEntity> deposits) {
 		this.deposits = deposits;
 	}
 

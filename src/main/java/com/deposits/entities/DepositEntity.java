@@ -3,6 +3,8 @@ package com.deposits.entities;
 import java.sql.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "deposit_table")
 public class DepositEntity {
@@ -46,6 +48,7 @@ public class DepositEntity {
 		
 	}
 	
+	@JsonBackReference (value = "client_reference")
 	public ClientEntity getClient() {
 		return client;
 	}
@@ -54,6 +57,7 @@ public class DepositEntity {
 		this.client = client;
 	}
 
+	@JsonBackReference (value = "bank_reference")
 	public BankEntity getBank() {
 		return bank;
 	}

@@ -1,8 +1,9 @@
 package com.deposits.entities;
 
 import com.deposits.entities.enums.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -27,10 +28,10 @@ public class ClientEntity {
 	@Enumerated(EnumType.STRING)
 	private IncorporationForms incorpForm;
 	
-	@OneToMany(mappedBy = "client" ,targetEntity = DepositEntity.class, cascade = CascadeType.ALL,
+	@OneToMany(mappedBy = "client" ,targetEntity = DepositEntity.class,
 			   fetch = FetchType.EAGER, orphanRemoval = true)
 	//@JoinColumn(name = "client_id",referencedColumnName = "id")
-	private List <DepositEntity> deposits = new ArrayList<DepositEntity>();
+	private Set <DepositEntity> deposits;
 	
 	protected ClientEntity () {
 		
@@ -83,11 +84,12 @@ public class ClientEntity {
 		this.id = id;
 	}
 
-	public List <DepositEntity> getDeposits() {
+	@JsonManagedReference (value = "client_reference")
+	public Set<DepositEntity> getDeposits() {
 		return deposits;
 	}
 
-	public void setDeposits(List <DepositEntity> deposits) {
+	public void setDeposits(Set<DepositEntity> deposits) {
 		this.deposits = deposits;
 	}
 

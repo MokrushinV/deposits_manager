@@ -1,7 +1,6 @@
 package com.deposits.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,12 +43,21 @@ public class ClientController {
 	void deleteClient (@PathVariable Integer id) {
 		clientServiceImpl.deleteClient(id);
 	}
-	/*@PutMapping("/clients")
-	ClientEntity editClient (@RequestBody ClientEntity editedClient) {
-		editedClient.getId();
+	
+	@PutMapping("/clients/{id}")
+	ClientEntity editClient (@RequestBody ClientEntity newClient, @PathVariable Integer id) {
+		return clientServiceImpl.getById(id)
+				.map(client -> {
+					client.setName (newClient.getName ());
+					client.setShortName(newClient.getShortName());
+					client.setAddress(newClient.getAddress());
+					client.setIncorpForm(newClient.getIncorpForm());
+					return clientServiceImpl.addClient(client);
+				})
+				.orElseGet ( () -> {
+					newClient.setId (id);
+					return clientServiceImpl.addClient(newClient);
+				});
 	}
-	*внести изменения в ClientSreviceImpl
-	*добавить кастомный класс Exception -> (Optional <?> getById)
-	*/
 	
 }

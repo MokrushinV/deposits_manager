@@ -3,7 +3,7 @@ package com.deposits.api.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.deposits.entities.BankEntity;
-import com.deposits.entities.ClientEntity;
 import com.deposits.exception.ClientNotFoundException;
 import com.deposits.services.impl.BankServiceImpl;
 

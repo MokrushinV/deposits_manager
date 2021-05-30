@@ -31,56 +31,56 @@ private final BankServiceImpl bankServiceImpl;
 		this.bankServiceImpl = bankServiceImpl;
 	}
 	
-	@GetMapping("/deposits")
+	@GetMapping ("/deposits")
 	List <DepositEntity> allDeposits () {
 		return depositServiceImpl.getAll();
 	}
 	
-	@PostMapping("/deposits")
+	@PostMapping ("/deposits")
 	DepositEntity newDeposit (@RequestBody DepositEntity newDeposit) {
-		return depositServiceImpl.addDeposit(newDeposit);
+		return depositServiceImpl.addDeposit (newDeposit);
 	}
 	
-	@GetMapping("/deposits/{id}")
+	@GetMapping ("/deposits/{id}")
 	DepositEntity getDepositById (@PathVariable Integer id) {
-		DepositEntity depositToGet = depositServiceImpl.getById(id).orElseThrow(() -> new DepositNotFoundException (id));
+		DepositEntity depositToGet = depositServiceImpl.getById (id).orElseThrow ( () -> new DepositNotFoundException (id));
 		return depositToGet;
 	}
 	
-	@GetMapping("/deposits/bank/{id}")
+	@GetMapping ("/deposits/bank/{id}")
 	DepositEntity getDepositByClient (@PathVariable Integer id) {
-		return depositServiceImpl.getByClientId(id);
+		return depositServiceImpl.getByClientId (id);
 	}
 	
-	@GetMapping("/deposits/client/{id}")
+	@GetMapping ("/deposits/client/{id}")
 	DepositEntity getDepositByBank (@PathVariable Integer id) {
-		return depositServiceImpl.getByBankId(id);
+		return depositServiceImpl.getByBankId (id);
 	}
 	
-	@DeleteMapping("/deposits/{id}")
+	@DeleteMapping ("/deposits/{id}")
 	void deleteDeposit (@PathVariable Integer id) {
-		depositServiceImpl.deleteDeposit(id);
+		depositServiceImpl.deleteDeposit (id);
 	}
 	
-	@PutMapping("/deposits/{id}/{clId}/{bnId}")
+	@PutMapping ("/deposits/{id}/{clId}/{bnId}")
 	DepositEntity editDeposit (@RequestBody DepositEntity newDeposit, 
 							   @PathVariable (name = "id") Integer id, 
 							   @PathVariable (name = "clId") Integer clId, 
 							   @PathVariable (name = "bnId") Integer bnId) {
 		return depositServiceImpl.getById(id)
-				.map(deposit -> {
-					deposit.setInterestRate(newDeposit.getInterestRate());
-					deposit.setOpenDate(newDeposit.getOpenDate());
-					deposit.setMonthsSinceOpen(newDeposit.getMonthsSinceOpen());
-					deposit.setClient(clientServiceImpl.getById(clId).orElseThrow( () -> new ClientNotFoundException(clId)));
-					deposit.setBank(bankServiceImpl.getById(bnId).orElseThrow( () -> new BankNotFoundException(bnId)));
-					return depositServiceImpl.addDeposit(deposit);
+				.map (deposit -> {
+					deposit.setInterestRate (newDeposit.getInterestRate ());
+					deposit.setOpenDate (newDeposit.getOpenDate ());
+					deposit.setMonthsSinceOpen (newDeposit.getMonthsSinceOpen ());
+					deposit.setClient (clientServiceImpl.getById (clId).orElseThrow( () -> new ClientNotFoundException (clId)));
+					deposit.setBank (bankServiceImpl.getById (bnId).orElseThrow( () -> new BankNotFoundException (bnId)));
+					return depositServiceImpl.addDeposit (deposit);
 				})
 				.orElseGet ( () -> {
 					newDeposit.setId (id);
-					newDeposit.setClient(clientServiceImpl.getById(clId).orElseThrow( () -> new ClientNotFoundException(clId)));
-					newDeposit.setBank(bankServiceImpl.getById(bnId).orElseThrow( () -> new BankNotFoundException(bnId)));
-					return depositServiceImpl.addDeposit(newDeposit);
+					newDeposit.setClient (clientServiceImpl.getById (clId).orElseThrow( () -> new ClientNotFoundException (clId)));
+					newDeposit.setBank (bankServiceImpl.getById (bnId).orElseThrow( () -> new BankNotFoundException (bnId)));
+					return depositServiceImpl.addDeposit (newDeposit);
 				});
 	}
 

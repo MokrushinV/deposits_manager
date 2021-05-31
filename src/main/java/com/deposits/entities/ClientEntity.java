@@ -28,8 +28,7 @@ public class ClientEntity {
 	@Enumerated(EnumType.STRING)
 	private IncorporationForms incorpForm;
 	
-	@OneToMany(mappedBy = "client" ,targetEntity = DepositEntity.class, cascade = CascadeType.ALL, //cascade - if entity is (for example)deleted then deposit will be deleted too
-			   fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "client" ,cascade = CascadeType.ALL) //cascade - if entity is (for example)deleted then deposit will be deleted too
 	//@JoinColumn(name = "client_id",referencedColumnName = "id")
 	private Set <DepositEntity> deposits;
 	

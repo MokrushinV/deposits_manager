@@ -44,7 +44,7 @@ public class BankController {
 	}
 	
 	@PostMapping ("/banks")
-	ResponseEntity <?> newBank (@RequestBody BankEntity newBank) {
+	public ResponseEntity <?> newBank (@RequestBody BankEntity newBank) {
 		EntityModel <BankEntity> entityModel = bankModelAssembler.toModel(bankServiceImpl.addBank (newBank));
 		return ResponseEntity
 				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
@@ -61,18 +61,18 @@ public class BankController {
 	 * maybe this would be useful in future
 	 * 
 	 * */
-	BankEntity getBankByName (@PathVariable String name) {
+	public BankEntity getBankByName (@PathVariable String name) {
 		return bankServiceImpl.getByName (name);
 	}
 	
 	@DeleteMapping ("/banks/{id}")
-	ResponseEntity <?> deleteBank (@PathVariable Integer id) {
+	public ResponseEntity <?> deleteBank (@PathVariable Integer id) {
 		bankServiceImpl.deleteBank (id);
 		return ResponseEntity.noContent ().build ();
 	}
 	
 	@PutMapping ("/banks/{id}")
-	ResponseEntity <?> editBank (@RequestBody BankEntity newBank, @PathVariable Integer id) {
+	public ResponseEntity <?> editBank (@RequestBody BankEntity newBank, @PathVariable Integer id) {
 		BankEntity updatedBank = bankServiceImpl.getById (id)
 				.map (bank -> {
 					bank.setBankName (newBank.getBankName ());

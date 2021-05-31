@@ -21,8 +21,7 @@ public class BankEntity {
 	@Column(name = "bank_BIC")
 	private String bankBIC;
 	
-	@OneToMany(mappedBy = "bank", targetEntity = DepositEntity.class, cascade = CascadeType.ALL, //cascade - if entity is (for example)deleted then deposit will be deleted too
-			   fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "bank", cascade = CascadeType.ALL) //cascade - if entity is (for example)deleted then deposit will be deleted too
 	//@JoinColumn(name = "bank_id", referencedColumnName = "id")
 	private Set <DepositEntity> deposits;
 	

@@ -1,6 +1,7 @@
 package com.deposits.api.controller;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.deposits.api.assembler.ClientModelAssembler;
+import com.deposits.api.assembler.DepositModelAssembler;
 import com.deposits.entities.ClientEntity;
+import com.deposits.entities.DepositEntity;
 import com.deposits.exception.ClientNotFoundException;
 import com.deposits.services.impl.ClientServiceImpl;
 
@@ -26,10 +29,12 @@ public class ClientController {
 
 	private final ClientServiceImpl clientServiceImpl;
 	private final ClientModelAssembler clientModelAssembler;
+	private final DepositModelAssembler depositModelAssembler;
 	
-	ClientController (ClientServiceImpl clientServiceImpl, ClientModelAssembler clientModelAssembler) {
+	ClientController (ClientServiceImpl clientServiceImpl, ClientModelAssembler clientModelAssembler, DepositModelAssembler depositModelAssembler) {
 		this.clientServiceImpl = clientServiceImpl;
 		this.clientModelAssembler = clientModelAssembler;
+		this.depositModelAssembler = depositModelAssembler;
 	}
 	
 	@GetMapping ("/clients")
@@ -111,5 +116,16 @@ public class ClientController {
 				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
 				.body (entityModel);
 	}
-	
+
+	@GetMapping ("/clients/{id}/owned_deposits")
+	public CollectionModel <EntityModel <DepositEntity>> getOwnedDeposits (@PathVariable Integer id) {
+		ClientEntity clientOwner = clientServiceImpl.getById (id).orElseThrow ( () -> new ClientNotFoundException (id));
+		
+		Set <EntityModel <DepositEntity>> deposits = clientOwner.getDeposits().stream ()
+				.map (depositModelAssembler::toModel)
+				.collect (Collectors.toSet ());
+		return CollectionModel.of (deposits,
+								   linkTo (methodOn (ClientController.class).getOwnedDeposits (id)).withSelfRel (),
+								   linkTo (methodOn (ClientController.class).allClients ()).withRel ("back_to_clients"));
+	}
 }

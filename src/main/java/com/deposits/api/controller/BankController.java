@@ -116,7 +116,7 @@ public class BankController {
 	public CollectionModel <EntityModel <DepositEntity>> getOwnedDeposits (@PathVariable Integer id) {
 		BankEntity bankOwner = bankServiceImpl.getById (id).orElseThrow ( () -> new BankNotFoundException (id));
 		
-		Set <EntityModel <DepositEntity>> deposits = bankOwner.getDeposits().stream ()
+		Set <EntityModel <DepositEntity>> deposits = bankOwner.getDeposits ().stream ()
 				.map (depositModelAssembler::toModel)
 				.collect (Collectors.toSet ());
 		return CollectionModel.of (deposits,

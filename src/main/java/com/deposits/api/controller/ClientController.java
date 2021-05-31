@@ -38,7 +38,31 @@ public class ClientController {
 				.map (clientModelAssembler::toModel)
 				.collect (Collectors.toList ());
 		return CollectionModel.of (clients, 
-								   linkTo (methodOn (ClientController.class).allClients ()).withSelfRel ());
+								   linkTo (methodOn (ClientController.class).allClients ()).withSelfRel (),
+								   linkTo (methodOn (ClientController.class).allClientsSortedByName ()).withRel ("sort_by_name"),
+								   linkTo (methodOn (ClientController.class).allClientsSortedByIncForm ()).withRel ("sort_by_incorporation_form"));
+	}
+	
+	@GetMapping ("/clients/sortedByName")
+	public CollectionModel <EntityModel <ClientEntity>> allClientsSortedByName () {
+		List <EntityModel <ClientEntity>> clients = clientServiceImpl.getAllSortedByName ().stream ()
+				.map (clientModelAssembler::toModel)
+				.collect (Collectors.toList ());
+		return CollectionModel.of (clients, 
+								   linkTo (methodOn (ClientController.class).allClientsSortedByName ()).withSelfRel (),
+								   linkTo (methodOn (ClientController.class).allClients ()).withRel ("clients"),
+								   linkTo (methodOn (ClientController.class).allClientsSortedByIncForm ()).withRel ("sort_by_incorporation_form"));
+	}
+	
+	@GetMapping ("/clients/sortedByIncForm")
+	public CollectionModel <EntityModel <ClientEntity>> allClientsSortedByIncForm () {
+		List <EntityModel <ClientEntity>> clients = clientServiceImpl.getAllSortedByIncForm ().stream ()
+				.map (clientModelAssembler::toModel)
+				.collect (Collectors.toList ());
+		return CollectionModel.of (clients, 
+								   linkTo (methodOn (ClientController.class).allClientsSortedByIncForm ()).withSelfRel (),
+								   linkTo (methodOn (ClientController.class).allClients ()).withRel ("clients"),
+								   linkTo (methodOn (ClientController.class).allClientsSortedByName ()).withRel ("sort_by_name"));
 	}
 	
 	@PostMapping ("/clients")
@@ -55,8 +79,14 @@ public class ClientController {
 		return clientModelAssembler.toModel (clientToGet);
 	}
 	
-	@DeleteMapping ("/clients/{id}")
-	public ResponseEntity <?> deleteClient (@PathVariable Integer id) {
+	@DeleteMapping ("/clients/delete/{id}") //works for console (curl -X ....)
+	public ResponseEntity <?> deleteClientConsole (@PathVariable Integer id) {
+		clientServiceImpl.deleteClient (id);
+		return ResponseEntity.noContent ().build ();
+	}
+	
+	@GetMapping ("/clients/delete/{id}") //works for browser links
+	public ResponseEntity <?> deleteClientWeb (@PathVariable Integer id) {
 		clientServiceImpl.deleteClient (id);
 		return ResponseEntity.noContent ().build ();
 	}

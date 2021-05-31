@@ -18,4 +18,8 @@ public interface ClientService {
 	ClientEntity editClient (ClientEntity clientEntity);
 	
 	List <ClientEntity> getAll ();
+	
+	List <ClientEntity> getAllSortedByName ();
+	
+	List <ClientEntity> getAllSortedByIncForm ();
 }

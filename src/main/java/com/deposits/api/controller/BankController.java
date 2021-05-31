@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,8 +44,11 @@ public class BankController {
 	}
 	
 	@PostMapping ("/banks")
-	BankEntity newBank (@RequestBody BankEntity newBank) {
-		return bankServiceImpl.addBank (newBank);
+	ResponseEntity <?> newBank (@RequestBody BankEntity newBank) {
+		EntityModel <BankEntity> entityModel = bankModelAssembler.toModel(bankServiceImpl.addBank (newBank));
+		return ResponseEntity
+				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
+				.body (entityModel);
 	}
 	
 	@GetMapping ("/banks/{id}")
@@ -52,18 +57,23 @@ public class BankController {
 		return bankModelAssembler.toModel (bankToGet);
 	}
 	//@GetMapping ("/banks/{name}")
+	/*
+	 * maybe this would be useful in future
+	 * 
+	 * */
 	BankEntity getBankByName (@PathVariable String name) {
 		return bankServiceImpl.getByName (name);
 	}
 	
 	@DeleteMapping ("/banks/{id}")
-	void deleteBank (@PathVariable Integer id) {
+	ResponseEntity <?> deleteBank (@PathVariable Integer id) {
 		bankServiceImpl.deleteBank (id);
+		return ResponseEntity.notFound ().build ();
 	}
 	
 	@PutMapping ("/banks/{id}")
-	BankEntity editBank (@RequestBody BankEntity newBank, @PathVariable Integer id) {
-		return bankServiceImpl.getById (id)
+	ResponseEntity <?> editBank (@RequestBody BankEntity newBank, @PathVariable Integer id) {
+		BankEntity updatedBank = bankServiceImpl.getById (id)
 				.map (bank -> {
 					bank.setBankName (newBank.getBankName ());
 					bank.setBankBIC (newBank.getBankBIC ());
@@ -73,6 +83,11 @@ public class BankController {
 					newBank.setId (id);
 					return bankServiceImpl.addBank (newBank);
 				});
+		
+		EntityModel <BankEntity> entityModel = bankModelAssembler.toModel (updatedBank);
+		return ResponseEntity
+				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
+				.body (entityModel);
 	}
 	
 }

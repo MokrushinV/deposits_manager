@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,8 +42,11 @@ public class ClientController {
 	}
 	
 	@PostMapping ("/clients")
-	ClientEntity newClient (@RequestBody ClientEntity newClient) {
-		return clientServiceImpl.addClient (newClient);
+	ResponseEntity <?> newClient (@RequestBody ClientEntity newClient) {
+		EntityModel <ClientEntity> entityModel = clientModelAssembler.toModel(clientServiceImpl.addClient (newClient));
+		return ResponseEntity
+				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
+				.body (entityModel);
 	}
 	
 	@GetMapping ("/clients/{id}")
@@ -51,13 +56,14 @@ public class ClientController {
 	}
 	
 	@DeleteMapping ("/clients/{id}")
-	void deleteClient (@PathVariable Integer id) {
+	ResponseEntity <?> deleteClient (@PathVariable Integer id) {
 		clientServiceImpl.deleteClient (id);
+		return ResponseEntity.notFound ().build ();
 	}
 	
 	@PutMapping ("/clients/{id}")
-	ClientEntity editClient (@RequestBody ClientEntity newClient, @PathVariable Integer id) {
-		return clientServiceImpl.getById (id)
+	ResponseEntity <?> editClient (@RequestBody ClientEntity newClient, @PathVariable Integer id) {
+		ClientEntity updatedClient = clientServiceImpl.getById (id)
 				.map (client -> {
 					client.setName (newClient.getName ());
 					client.setShortName (newClient.getShortName ());
@@ -69,6 +75,11 @@ public class ClientController {
 					newClient.setId (id);
 					return clientServiceImpl.addClient (newClient);
 				});
+		
+		EntityModel <ClientEntity> entityModel = clientModelAssembler.toModel (updatedClient);
+		return ResponseEntity
+				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
+				.body (entityModel);
 	}
 	
 }

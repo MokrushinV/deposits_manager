@@ -3,6 +3,7 @@ package com.deposits.api.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.deposits.api.assembler.BankModelAssembler;
+import com.deposits.api.assembler.DepositModelAssembler;
 import com.deposits.entities.BankEntity;
+import com.deposits.entities.DepositEntity;
 import com.deposits.exception.BankNotFoundException;
 import com.deposits.services.impl.BankServiceImpl;
 
@@ -28,10 +31,12 @@ public class BankController {
 
 	private final BankServiceImpl bankServiceImpl;
 	private final BankModelAssembler bankModelAssembler;
+	private final DepositModelAssembler depositModelAssembler;
 	
-	BankController (BankServiceImpl bankServiceImpl, BankModelAssembler bankModelAssembler) {
+	BankController (BankServiceImpl bankServiceImpl, BankModelAssembler bankModelAssembler, DepositModelAssembler depositModelAssembler) {
 		this.bankServiceImpl = bankServiceImpl;
 		this.bankModelAssembler = bankModelAssembler;
+		this.depositModelAssembler = depositModelAssembler;
 	}
 	
 	@GetMapping ("/banks")
@@ -105,6 +110,18 @@ public class BankController {
 		return ResponseEntity
 				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
 				.body (entityModel);
+	}
+	
+	@GetMapping ("/banks/{id}/owned_deposits")
+	public CollectionModel <EntityModel <DepositEntity>> getOwnedDeposits (@PathVariable Integer id) {
+		BankEntity bankOwner = bankServiceImpl.getById (id).orElseThrow ( () -> new BankNotFoundException (id));
+		
+		Set <EntityModel <DepositEntity>> deposits = bankOwner.getDeposits().stream ()
+				.map (depositModelAssembler::toModel)
+				.collect (Collectors.toSet ());
+		return CollectionModel.of (deposits,
+								   linkTo (methodOn (BankController.class).getOwnedDeposits (id)).withSelfRel (),
+								   linkTo (methodOn (BankController.class).allBanks ()).withRel ("back_to_banks"));
 	}
 	
 }

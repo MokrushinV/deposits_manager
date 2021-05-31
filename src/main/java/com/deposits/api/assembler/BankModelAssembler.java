@@ -17,7 +17,8 @@ public class BankModelAssembler implements RepresentationModelAssembler <BankEnt
 		return EntityModel.of (bankEntity,
 							   linkTo (methodOn (BankController.class).getBank (bankEntity.getId ())).withSelfRel (),
 							   linkTo (methodOn (BankController.class).allBanks ()).withRel ("banks"),
-							   linkTo (methodOn (BankController.class).deleteBankWeb (bankEntity.getId ())).withRel ("delete"));
+							   linkTo (methodOn (BankController.class).deleteBankWeb (bankEntity.getId ())).withRel ("delete"),
+							   linkTo (methodOn (BankController.class).getOwnedDeposits (bankEntity.getId ())).withRel ("owned_deposit"));
 	}
 
 }

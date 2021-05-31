@@ -36,16 +36,27 @@ public class BankController {
 	
 	@GetMapping ("/banks")
 	public CollectionModel <EntityModel <BankEntity>> allBanks () {
-		List <EntityModel <BankEntity>> banks = bankServiceImpl.getAll ().stream()
+		List <EntityModel <BankEntity>> banks = bankServiceImpl.getAll ().stream ()
 				.map (bankModelAssembler::toModel)
 				.collect (Collectors.toList());
 		return CollectionModel.of (banks,
-								   linkTo (methodOn (BankController.class).allBanks ()).withSelfRel ());
+								   linkTo (methodOn (BankController.class).allBanks ()).withSelfRel (),
+								   linkTo (methodOn (BankController.class).allBanksSortedByName()).withRel("sort_by_name"));
+	}
+	
+	@GetMapping ("/banks/sortedByName")
+	public CollectionModel <EntityModel <BankEntity>> allBanksSortedByName () {
+		List <EntityModel <BankEntity>> banks = bankServiceImpl.getAllSortedByName ().stream ()
+				.map (bankModelAssembler::toModel)
+				.collect (Collectors.toList());
+		return CollectionModel.of (banks,
+								   linkTo (methodOn (BankController.class).allBanks ()).withRel ("banks"),
+								   linkTo (methodOn (BankController.class).allBanksSortedByName ()).withSelfRel ());
 	}
 	
 	@PostMapping ("/banks")
 	public ResponseEntity <?> newBank (@RequestBody BankEntity newBank) {
-		EntityModel <BankEntity> entityModel = bankModelAssembler.toModel(bankServiceImpl.addBank (newBank));
+		EntityModel <BankEntity> entityModel = bankModelAssembler.toModel (bankServiceImpl.addBank (newBank));
 		return ResponseEntity
 				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
 				.body (entityModel);
@@ -65,8 +76,14 @@ public class BankController {
 		return bankServiceImpl.getByName (name);
 	}
 	
-	@DeleteMapping ("/banks/{id}")
-	public ResponseEntity <?> deleteBank (@PathVariable Integer id) {
+	@DeleteMapping ("/banks/{id}") //works for console (curl -X ....)
+	public ResponseEntity <?> deleteBankConsole (@PathVariable Integer id) {
+		bankServiceImpl.deleteBank (id);
+		return ResponseEntity.noContent ().build ();
+	}
+	
+	@GetMapping ("/banks/delete/{id}") //works for browser links
+	public ResponseEntity <?> deleteBankWeb (@PathVariable Integer id) {
 		bankServiceImpl.deleteBank (id);
 		return ResponseEntity.noContent ().build ();
 	}

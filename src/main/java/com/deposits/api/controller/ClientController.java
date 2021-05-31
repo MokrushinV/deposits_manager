@@ -67,7 +67,7 @@ public class ClientController {
 	
 	@PostMapping ("/clients")
 	public ResponseEntity <?> newClient (@RequestBody ClientEntity newClient) {
-		EntityModel <ClientEntity> entityModel = clientModelAssembler.toModel(clientServiceImpl.addClient (newClient));
+		EntityModel <ClientEntity> entityModel = clientModelAssembler.toModel (clientServiceImpl.addClient (newClient));
 		return ResponseEntity
 				.created (entityModel.getRequiredLink (IanaLinkRelations.SELF).toUri ())
 				.body (entityModel);
@@ -79,7 +79,7 @@ public class ClientController {
 		return clientModelAssembler.toModel (clientToGet);
 	}
 	
-	@DeleteMapping ("/clients/delete/{id}") //works for console (curl -X ....)
+	@DeleteMapping ("/clients/{id}") //works for console (curl -X ....)
 	public ResponseEntity <?> deleteClientConsole (@PathVariable Integer id) {
 		clientServiceImpl.deleteClient (id);
 		return ResponseEntity.noContent ().build ();

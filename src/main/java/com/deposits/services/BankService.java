@@ -18,4 +18,7 @@ public interface BankService {
 	BankEntity editBank (BankEntity bankEntity);
 	
 	List <BankEntity> getAll ();
+	
+	List <BankEntity> getAllSortedByName ();
+	
 }

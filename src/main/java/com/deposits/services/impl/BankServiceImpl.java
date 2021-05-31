@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.deposits.services.BankService;
 import com.deposits.entities.BankEntity;
@@ -43,7 +44,12 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public List<BankEntity> getAll () {
+	public List <BankEntity> getAll () {
 		return bankRepository.findAll ();
+	}
+
+	@Override
+	public List <BankEntity> getAllSortedByName() {
+		return bankRepository.findAll (Sort.by (Sort.Direction.ASC, "bankName"));
 	}
 }

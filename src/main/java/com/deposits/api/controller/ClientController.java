@@ -58,7 +58,7 @@ public class ClientController {
 	@DeleteMapping ("/clients/{id}")
 	ResponseEntity <?> deleteClient (@PathVariable Integer id) {
 		clientServiceImpl.deleteClient (id);
-		return ResponseEntity.notFound ().build ();
+		return ResponseEntity.noContent ().build ();
 	}
 	
 	@PutMapping ("/clients/{id}")

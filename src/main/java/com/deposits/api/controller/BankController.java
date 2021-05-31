@@ -68,7 +68,7 @@ public class BankController {
 	@DeleteMapping ("/banks/{id}")
 	ResponseEntity <?> deleteBank (@PathVariable Integer id) {
 		bankServiceImpl.deleteBank (id);
-		return ResponseEntity.notFound ().build ();
+		return ResponseEntity.noContent ().build ();
 	}
 	
 	@PutMapping ("/banks/{id}")

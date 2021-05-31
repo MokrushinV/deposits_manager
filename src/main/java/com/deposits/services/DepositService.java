@@ -20,4 +20,10 @@ public interface DepositService {
 	DepositEntity editDeposit (DepositEntity depositEntity);
 	
 	List <DepositEntity> getAll ();
+	
+	List <DepositEntity> getAllSortedByInterest ();
+	
+	List <DepositEntity> getAllSortedByMonthsSinceOpen ();
+	
+	List <DepositEntity> getAllSortedByOpenDate ();
 }

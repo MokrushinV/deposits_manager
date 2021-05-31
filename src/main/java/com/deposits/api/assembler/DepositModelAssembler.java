@@ -17,7 +17,8 @@ public class DepositModelAssembler implements RepresentationModelAssembler <Depo
  
 		return EntityModel.of (depositEntity,
 							   linkTo (methodOn (DepositController.class).getDepositById (depositEntity.getId ())).withSelfRel (),
-							   linkTo (methodOn (DepositController.class).allDeposits ()).withRel ("deposits"));
+							   linkTo (methodOn (DepositController.class).allDeposits ()).withRel ("deposits"),
+							   linkTo (methodOn (DepositController.class).deleteDepositWeb (depositEntity.getId ())).withRel ("delete"));
 	}
 
 }

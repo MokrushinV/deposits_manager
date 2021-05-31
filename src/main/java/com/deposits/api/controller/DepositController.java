@@ -51,7 +51,46 @@ private final DepositModelAssembler depositModelAssembler;
 			.map (depositModelAssembler::toModel)
 			.collect (Collectors.toList ());	
 		return CollectionModel.of (deposits,
-								   linkTo (methodOn (DepositController.class).allDeposits()).withSelfRel());
+								   linkTo (methodOn (DepositController.class).allDeposits ()).withSelfRel (),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByInterestRate ()).withRel ("sort_by_interest_rate"),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByMonthsSinceOpen ()).withRel ("sort_by_months_since_open"),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByOpenDate ()).withRel ("sort_by_open_date"));
+	}
+	
+	@GetMapping ("/deposits/sortedByInterestRate")
+	public CollectionModel <EntityModel <DepositEntity>> allDepositsSortedByInterestRate () {
+		List <EntityModel <DepositEntity>> deposits = depositServiceImpl.getAllSortedByInterest().stream()
+			.map (depositModelAssembler::toModel)
+			.collect (Collectors.toList ());	
+		return CollectionModel.of (deposits,
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByInterestRate()).withSelfRel(),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByMonthsSinceOpen ()).withRel ("sort_by_months_since_open"),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByOpenDate ()).withRel ("sort_by_open_date"),
+								   linkTo (methodOn (DepositController.class).allDeposits ()).withRel ("deposits"));
+	}
+	
+	@GetMapping ("/deposits/sortedByMonthsSinceOpen")
+	public CollectionModel <EntityModel <DepositEntity>> allDepositsSortedByMonthsSinceOpen () {
+		List <EntityModel <DepositEntity>> deposits = depositServiceImpl.getAllSortedByMonthsSinceOpen().stream()
+			.map (depositModelAssembler::toModel)
+			.collect (Collectors.toList ());	
+		return CollectionModel.of (deposits,
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByMonthsSinceOpen()).withSelfRel(),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByInterestRate ()).withRel ("sort_by_interest_rate"),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByOpenDate ()).withRel ("sort_by_open_date"),
+								   linkTo (methodOn (DepositController.class).allDeposits ()).withRel ("deposits"));
+	}
+	
+	@GetMapping ("/deposits/sortedByOpenDate")
+	public CollectionModel <EntityModel <DepositEntity>> allDepositsSortedByOpenDate () {
+		List <EntityModel <DepositEntity>> deposits = depositServiceImpl.getAllSortedByOpenDate() .stream()
+			.map (depositModelAssembler::toModel)
+			.collect (Collectors.toList ());	
+		return CollectionModel.of (deposits,
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByOpenDate()).withSelfRel(),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByInterestRate ()).withRel ("sort_by_interest_rate"),
+								   linkTo (methodOn (DepositController.class).allDepositsSortedByMonthsSinceOpen ()).withRel ("sort_by_months_since_open"),
+								   linkTo (methodOn (DepositController.class).allDeposits ()).withRel ("deposits"));
 	}
 	
 	@PostMapping ("/deposits")
@@ -86,8 +125,14 @@ private final DepositModelAssembler depositModelAssembler;
 		return depositServiceImpl.getByBankId (id);
 	}
 	
-	@DeleteMapping ("/deposits/{id}")
-	public ResponseEntity <?> deleteDeposit (@PathVariable Integer id) {
+	@DeleteMapping ("/deposits/{id}") //used from console
+	public ResponseEntity <?> deleteDepositConsole (@PathVariable Integer id) {
+		depositServiceImpl.deleteDeposit (id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping ("/deposits/delete/{id}") //used from browser links
+	public ResponseEntity <?> deleteDepositWeb (@PathVariable Integer id) {
 		depositServiceImpl.deleteDeposit (id);
 		return ResponseEntity.noContent().build();
 	}

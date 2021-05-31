@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.deposits.entities.DepositEntity;
@@ -50,6 +51,21 @@ public class DepositServiceImpl implements DepositService {
 	@Override
 	public List<DepositEntity> getAll () {
 		return depositRepository.findAll ();
+	}
+
+	@Override
+	public List<DepositEntity> getAllSortedByInterest() {
+		return depositRepository.findAll (Sort.by (Sort.Direction.ASC, "interestRate"));
+	}
+
+	@Override
+	public List<DepositEntity> getAllSortedByMonthsSinceOpen() {
+		return depositRepository.findAll (Sort.by (Sort.Direction.ASC, "monthsSinceOpen"));
+	}
+
+	@Override
+	public List<DepositEntity> getAllSortedByOpenDate() {
+		return depositRepository.findAll (Sort.by (Sort.Direction.ASC, "openDate"));
 	}
 
 }

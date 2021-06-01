@@ -18,7 +18,7 @@ curl -X POST localhost:8080/clients -H "Content-type:application/hal+json" -d "{
 
 curl -X PUT localhost:8080/deposits/25/1/10 -H "Content-type:application/hal+json" -d "{""monthsSinceOpen"": 67, ""interestRate"": 6.7, ""openDate"": ""2018-06-14""}" to add deposit with id = 25 with client id = 1 and bank id = 10
 
-PUT requests are the same (full body required).
+PUT requests are the same (full body required, and you should provide "id" parameter for banks and clients, like that: .../banks/10 -H...).
 
 Do note, that if your console use single quotation, console input should be something like this: curl -X POST localhost:8080/banks -H 'Content-type:application/hal+json' -d '{"bankName": "sampleBank", "bankBIC": "7832493"}'
 

@@ -7,7 +7,11 @@ TO-DO:
        2. Add Javadocs/commentary 
        
        3. Expand/use exceptions
-       
+# About
+REST API built with SPRING, Hibernate, HATEOAS, H2.
+WebApp handles CRUD operations with preuploaded data.
+There are 3 tables of banks, clients and deposits. Banks and clients relate to deposits as MANY-TO-ONE
+
 # How to use
 
 http://localhost:8080/deposits or http://localhost:8080/clients or http://localhost:8080/banks then use provided links (deletes, gets and sorts).

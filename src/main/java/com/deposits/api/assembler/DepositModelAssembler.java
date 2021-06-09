@@ -11,6 +11,12 @@ import com.deposits.api.controller.ClientController;
 import com.deposits.api.controller.DepositController;
 import com.deposits.entities.DepositEntity;
 
+/**
+ * Modifies {@link DepositEntity} with links before responding
+ * to user's request. Implicitly using DTO.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Component
 public class DepositModelAssembler implements RepresentationModelAssembler <DepositEntity, EntityModel <DepositEntity>> {
 

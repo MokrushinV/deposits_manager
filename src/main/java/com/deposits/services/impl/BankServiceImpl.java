@@ -11,6 +11,11 @@ import com.deposits.services.BankService;
 import com.deposits.entities.BankEntity;
 import com.deposits.repositories.BankRepository;
 
+/**
+ * Spring-oriented implementation for {@link BankService}.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Service
 public class BankServiceImpl implements BankService {
 

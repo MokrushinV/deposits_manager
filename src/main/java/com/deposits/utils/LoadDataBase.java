@@ -14,6 +14,13 @@ import com.deposits.repositories.BankRepository;
 import com.deposits.repositories.ClientRepository;
 import com.deposits.repositories.DepositRepository;
 
+/**
+ * Configuration bean to preload some data to the in-memory database h2.
+ *  So modifications (by CRUD operations) to database will only
+ * exist for this very run of a program.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Configuration
 public class LoadDataBase {
 	

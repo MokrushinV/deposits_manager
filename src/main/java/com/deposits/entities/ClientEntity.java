@@ -7,6 +7,12 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+/**
+ * ClientEntity is an entity that represents client that
+ * may have a deposit. One client can have many deposits.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Entity
 @Table(name = "client_table")
 public class ClientEntity {

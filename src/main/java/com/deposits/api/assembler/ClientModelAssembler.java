@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 import com.deposits.api.controller.ClientController;
 import com.deposits.entities.ClientEntity;
 
+/**
+ * Modifies {@link ClientEntity} with links before responding
+ * to user's request. Implicitly using DTO.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Component
 public class ClientModelAssembler implements RepresentationModelAssembler <ClientEntity, EntityModel <ClientEntity>> {
 

@@ -4,9 +4,14 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+/**
+ * BankEntity is an entity that represents a bank that
+ * may have deposits. One bank can have many deposits.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Entity
 @Table(name = "bank_table")
 public class BankEntity {
@@ -30,7 +35,7 @@ public class BankEntity {
 		this.bankBIC = bankBIC;
 	}
 	
-	protected BankEntity () {
+	public BankEntity () {
 		
 	}
 

@@ -5,6 +5,13 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+/**
+ * DepositEntity is an entity that represents a deposit
+ * that should have a provider (bank) and a consumer (client).
+ * One deposit linked to exactly one bank and one client.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Entity
 @Table(name = "deposit_table")
 public class DepositEntity {
@@ -44,7 +51,7 @@ public class DepositEntity {
 		this.monthsSinceOpen = monthSinceOpen;
 	}
 	
-	protected DepositEntity () {
+	public DepositEntity () {
 		
 	}
 	

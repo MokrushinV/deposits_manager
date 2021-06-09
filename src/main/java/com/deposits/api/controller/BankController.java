@@ -25,7 +25,11 @@ import com.deposits.entities.DepositEntity;
 import com.deposits.exception.BankNotFoundException;
 import com.deposits.services.impl.BankServiceImpl;
 
-
+/**
+ * API-endpoint for bank management.
+ * @author Mokrushin Vladimir
+ *
+ */
 @RestController
 public class BankController {
 

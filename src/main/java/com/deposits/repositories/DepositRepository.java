@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.deposits.entities.DepositEntity;
 
+/**
+ * Spring Data JPA Repository for {@link DepositEntity}
+ * @author Mokrushin Vladimir
+ *
+ */
 @Repository
 public interface DepositRepository extends JpaRepository <DepositEntity, Integer> {
 

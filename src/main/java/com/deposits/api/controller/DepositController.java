@@ -26,6 +26,11 @@ import com.deposits.services.impl.BankServiceImpl;
 import com.deposits.services.impl.ClientServiceImpl;
 import com.deposits.services.impl.DepositServiceImpl;
 
+/**
+ * API-endpoint for deposit management.
+ * @author Mokrushin Vladimir
+ *
+ */
 @RestController 
 public class DepositController {
 	

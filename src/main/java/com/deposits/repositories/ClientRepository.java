@@ -6,6 +6,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.deposits.entities.ClientEntity;
 
+/**
+ * Spring Data JPA repository for {@link ClientEntity}
+ * @author Mokrushin Vladimir
+ *
+ */
 @Repository
 public interface ClientRepository extends JpaRepository <ClientEntity, Integer> {
 	

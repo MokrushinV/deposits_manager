@@ -11,6 +11,11 @@ import com.deposits.entities.DepositEntity;
 import com.deposits.repositories.DepositRepository;
 import com.deposits.services.DepositService;
 
+/**
+ * Spring-oriented implementation for {@link DepositService}.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Service
 public class DepositServiceImpl implements DepositService {
 

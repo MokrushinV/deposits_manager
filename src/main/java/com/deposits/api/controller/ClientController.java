@@ -24,6 +24,11 @@ import com.deposits.entities.DepositEntity;
 import com.deposits.exception.ClientNotFoundException;
 import com.deposits.services.impl.ClientServiceImpl;
 
+/**
+ * API-endpoint for client management.
+ * @author Mokrushin Vladimir
+ *
+ */
 @RestController
 public class ClientController {
 

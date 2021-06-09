@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 import com.deposits.api.controller.BankController;
 import com.deposits.entities.BankEntity;
 
+/**
+ * Modifies {@link BankEntity} with links before responding
+ * to user's request. Implicitly using DTO.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Component
 public class BankModelAssembler implements RepresentationModelAssembler <BankEntity, EntityModel <BankEntity>> {
 

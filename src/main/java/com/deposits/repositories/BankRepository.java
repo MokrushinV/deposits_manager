@@ -6,6 +6,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.deposits.entities.BankEntity;
 
+/**
+ * Spring Data JPA Repository for {@link BankEntity}
+ * @author Mokrushin Vladimir
+ *
+ */
 @Repository
 public interface BankRepository extends JpaRepository <BankEntity, Integer> {
 	

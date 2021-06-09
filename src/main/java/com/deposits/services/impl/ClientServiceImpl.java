@@ -11,6 +11,11 @@ import com.deposits.entities.ClientEntity;
 import com.deposits.repositories.ClientRepository;
 import com.deposits.services.ClientService;
 
+/**
+ * Spring-oriented implementation for {@link ClientService}.
+ * @author Mokrushin Vladimir
+ *
+ */
 @Service
 public class ClientServiceImpl implements ClientService {
 

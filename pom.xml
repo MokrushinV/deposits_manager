@@ -14,7 +14,7 @@
 	<name>bank_deposits_manager</name>
 	<description>Simple app for managing bank deposits</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>15</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

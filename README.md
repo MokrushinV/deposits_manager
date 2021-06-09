@@ -1,5 +1,4 @@
 ## Deposits-manager
-test repository/for edu
 TO-DO: 
         
        1. Add unit-tests 

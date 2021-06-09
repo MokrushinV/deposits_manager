@@ -2,10 +2,8 @@
 TO-DO: 
         
        1. Add unit-tests 
-
-       2. Add Javadocs/commentary 
        
-       3. Expand/use exceptions
+       2. Expand/use exceptions
 # About
 REST API built with SPRING, Hibernate, HATEOAS, H2.
 WebApp handles CRUD operations with preuploaded data.
